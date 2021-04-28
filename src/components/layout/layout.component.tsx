@@ -32,8 +32,9 @@ class Layout extends PureComponent<LayoutProperties, unknown> {
                         <IoBagOutline className="text-2xl" />
                     </div>
                 </header>
-                <h1 className="text-white text-4xl mt-20 light">
-                    <strong>Discover</strong> the best
+                <h1 className="text-white text-4xl mt-20 font-light">
+                    <strong className="font-extrabold">Discover</strong> the
+                    best
                 </h1>
                 {this.props.children}
             </div>

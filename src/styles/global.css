@@ -6,4 +6,38 @@ body {
         "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
+    background-color: #576161;
+}
+.product-modal {
+    background: rgba(114, 127, 129, 0.45);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.product-enter {
+    opacity: 0;
+    /* transform: translateX(-100%); */
+    margin-left: -144px;
+}
+.product-enter-active {
+    opacity: 1;
+    margin-left: 0;
+
+    /* transform: translateX(0%); */
+}
+.product-exit {
+    opacity: 1;
+    margin-left: 0;
+
+    /* transform: translateX(0%); */
+}
+.product-exit-active {
+    opacity: 0;
+    margin-left: -144px;
+    /* transform: translateX(100%); */
+}
+.product-enter-active,
+.product-exit-active {
+    transition: all 500ms;
 }
