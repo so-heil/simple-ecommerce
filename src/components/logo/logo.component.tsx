@@ -1,6 +1,7 @@
 import { LogoProperties } from "./logo.properties";
 import React, { PureComponent } from "react";
 import classNames from "classnames";
+import { BiHomeSmile } from "react-icons/bi";
 
 class Logo extends PureComponent<LogoProperties, unknown> {
     public constructor(props: LogoProperties) {
@@ -11,14 +12,17 @@ class Logo extends PureComponent<LogoProperties, unknown> {
     public render(): JSX.Element {
         const { className } = this.props;
         return (
-            <h1
-                className={classNames(
-                    "text-lg font-extrabold text-white",
-                    className,
-                )}
-            >
-                Homeme
-            </h1>
+            <div className="bg-white p-2 mr-3 rounded-xl flex items-center">
+                <BiHomeSmile className="text-3xl mr-3" />
+                <h1
+                    className={classNames(
+                        "text-lg font-extrabold text-black",
+                        className,
+                    )}
+                >
+                    Homeme
+                </h1>
+            </div>
         );
     }
 }

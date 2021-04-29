@@ -1,9 +1,8 @@
 import { LayoutProperties } from "./layout.properties";
 import React, { PureComponent } from "react";
 import { CgMenuLeft } from "react-icons/cg";
-import Logo from "@components/logo/logo.component";
+import Logo from "src/components/logo/logo.component";
 import { IoSearchOutline, IoBagOutline } from "react-icons/io5";
-
 class Layout extends PureComponent<LayoutProperties, unknown> {
     public constructor(props: LayoutProperties) {
         super(props);
@@ -14,12 +13,7 @@ class Layout extends PureComponent<LayoutProperties, unknown> {
         return (
             <div className="px-10">
                 <header className="flex items-center justify-between mt-8">
-                    <div className="flex items-center">
-                        <div className="bg-white p-2 mr-3 rounded-xl">
-                            <CgMenuLeft className="text-2xl" />
-                        </div>
-                        <Logo />
-                    </div>
+                    <Logo />
                     <form className="bg-accent-dark flex items-center py-3 px-4 rounded-xl">
                         <IoSearchOutline className="text-gray-400 mr-3 text-lg" />
                         <input

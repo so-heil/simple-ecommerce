@@ -6,9 +6,9 @@ import {
 import React, { PureComponent } from "react";
 import classNames from "classnames";
 import { CSSTransition } from "react-transition-group";
-import { AppState } from "@redux/store";
+import { AppState } from "src/redux/store";
 import { connect } from "react-redux";
-import { selectProduct } from "@redux/slices/products";
+import { selectProduct } from "src/redux/slices/products";
 class Product extends PureComponent<
     ProductProperties,
     {

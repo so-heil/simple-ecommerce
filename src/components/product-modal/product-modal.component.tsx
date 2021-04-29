@@ -9,8 +9,8 @@ import {
 } from "./product-modal.properties";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { AppState } from "@redux/store";
-import { selectProduct, unselectProduct } from "@redux/slices/products";
+import { AppState } from "src/redux/store";
+import { selectProduct, unselectProduct } from "src/redux/slices/products";
 import { connect } from "react-redux";
 
 class ProductModal extends PureComponent<ProductModalProperties, unknown> {

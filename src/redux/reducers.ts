@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
-import counter from "@redux/slices/counter";
-import products from "@redux/slices/products";
+import counter from "src/redux/slices/counter";
+import products from "src/redux/slices/products";
 
 const rootReducer = combineReducers({ counter, products });
 

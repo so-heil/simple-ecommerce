@@ -3,9 +3,9 @@ import {
     ViewedProductsProperties,
 } from "./viewed-products.properties";
 import React, { PureComponent } from "react";
-import ViewedProduct from "@components/viewed-product/viewed-product.component";
+import ViewedProduct from "src/components/viewed-product/viewed-product.component";
 import { connect } from "react-redux";
-import { AppState } from "@redux/store";
+import { AppState } from "src/redux/store";
 
 class ViewedProducts extends PureComponent<ViewedProductsProperties, unknown> {
     public constructor(props: ViewedProductsProperties) {

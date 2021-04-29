@@ -1,2 +1,2 @@
-export { increase, decrease } from "@redux/slices/counter";
-export { selectProduct } from "@redux/slices/products";
+export { increase, decrease } from "src/redux/slices/counter";
+export { selectProduct } from "src/redux/slices/products";

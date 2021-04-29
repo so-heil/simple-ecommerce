@@ -2,7 +2,7 @@ import { CategoriesProperties } from "./categories.properties";
 import React, { PureComponent } from "react";
 import classNames from "classnames";
 import { getCategories, getProducts } from "src/fake-api/fake-api";
-import Product from "@components/product/product.component";
+import Product from "src/components/product/product.component";
 import { ProductType } from "src/types/Product";
 
 class Categories extends PureComponent<
