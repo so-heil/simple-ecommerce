@@ -8,16 +8,17 @@ class ViewedProduct extends PureComponent<ViewedProductProperties, unknown> {
     }
 
     public render(): JSX.Element {
+        const product = this.props.product;
         return (
-            <div className="flex items-center">
+            <div className="flex items-center flex-shrink-0">
                 <img
-                    src="/chair.png"
+                    src={product.photo}
                     className="object-contain h-40 mr-5"
                     alt=""
                 />
                 <div className="text-white">
-                    <p>Fucking now</p>
-                    <span className="font-bold">$210</span>
+                    <p>{product.name}</p>
+                    <span className="font-bold">${product.price}</span>
                 </div>
             </div>
         );

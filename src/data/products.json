@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Classic Chair",
+
+        "price": 320,
+        "colors": ["#ea8", "#732"],
+        "rating": 3,
+        "category": "chairs",
+        "photo": "/chair.png"
+    },
+    {
+        "name": "The SHoe",
+
+        "price": 100,
+        "colors": ["#e28", "#f22"],
+        "rating": 3,
+        "category": "shoes",
+        "photo": "/shoe.png"
+    }
+]

@@ -1,10 +1,18 @@
 import classNames from "classnames";
-import React, { PureComponent } from "react";
+import React, { Fragment, PureComponent } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { CSSTransition } from "react-transition-group";
-import { ProductModalProperties } from "./product-modal.properties";
+import {
+    DispatchProps,
+    ProductModalProperties,
+    StateProps,
+} from "./product-modal.properties";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { AppState } from "@redux/store";
+import { selectProduct, unselectProduct } from "@redux/slices/products";
+import { connect } from "react-redux";
+
 class ProductModal extends PureComponent<ProductModalProperties, unknown> {
     private btnClassname =
         "bg-white w-10 h-10 flex justify-center items-center text-2xl";
@@ -15,20 +23,22 @@ class ProductModal extends PureComponent<ProductModalProperties, unknown> {
     }
 
     public render(): JSX.Element {
-        const { onClose, isOpen, className } = this.props;
+        const { unselectProduct, selectedProduct: product } = this.props;
+        const filledStars = Array.from(Array(product?.rating).keys());
+        const emptyStars = product?.rating
+            ? Array.from(Array(5 - product?.rating).keys())
+            : [];
         return (
             <CSSTransition
-                in={isOpen}
-                timeout={100}
-                classNames="fade"
+                in={!!product}
+                timeout={300}
+                classNames="modal"
+                mountOnEnter
                 unmountOnExit
             >
                 <>
                     <aside
-                        className={classNames(
-                            "absolute z-20 w-96 bg-accent-light product-modal overflow-y-auto",
-                            className,
-                        )}
+                        className="absolute z-20 w-96 bg-accent-light product-modal overflow-y-auto relative"
                         style={{
                             right: 10,
                             top: 10,
@@ -36,9 +46,13 @@ class ProductModal extends PureComponent<ProductModalProperties, unknown> {
                             position: "fixed",
                         }}
                     >
+                        <AiOutlineClose
+                            className="mt-5 ml-5 text-3xl absolute text-gray-300 hover:text-white transition cursor-pointer"
+                            onClick={unselectProduct}
+                        />
                         <div className="flex items-center">
                             <img
-                                src="/chair.png"
+                                src={product?.photo}
                                 alt=""
                                 className="object-contain h-96 w-72 mr-10 p-4"
                             />
@@ -47,26 +61,23 @@ class ProductModal extends PureComponent<ProductModalProperties, unknown> {
                             </div>
                         </div>
                         <div className="px-10 text-white text-3xl">
-                            <h3>Some product</h3>
+                            <h3>{product?.name}</h3>
                             <div className="flex mt-5">
                                 <span className="font-bold text-3xl flex-1">
-                                    $280
+                                    ${product?.price}
                                 </span>
                                 <div className="flex text-2xl items-center">
-                                    <AiFillStar />
-                                    <AiOutlineStar />
-                                    <AiOutlineStar />
-                                    <AiOutlineStar />
-                                    <AiOutlineStar />
+                                    {filledStars.map(() => (
+                                        <AiFillStar />
+                                    ))}
+                                    {emptyStars.map(() => (
+                                        <AiOutlineStar />
+                                    ))}
                                 </div>
                             </div>
                             <p className="text-lg text-white mt-8">
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Explicabo expedita
-                                exercitationem quia blanditiis, earum vel
-                                laboriosam omnis perspiciatis! Aspernatur ullam
-                                inventore nihil voluptatem amet blanditiis
-                                distinctio quidem dolorem quia ab?
+                                {product?.description ??
+                                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo expedita exercitationem quia blanditiis, earum vel laboriosam omnis perspiciatis!"}
                             </p>
                             <div className="flex justify-between items-center mt-8">
                                 <p className="text-lg text-gray-100 flex justify-between">
@@ -110,4 +121,10 @@ class ProductModal extends PureComponent<ProductModalProperties, unknown> {
     }
 }
 
-export default ProductModal;
+const mapStateToProps = (state: AppState): StateProps => ({
+    selectedProduct: state.products.selectedProduct,
+});
+
+const mapDispatchToProps: DispatchProps = { selectProduct, unselectProduct };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductModal);

@@ -1,8 +1,14 @@
-import { ProductProperties } from "./product.properties";
+import {
+    DispatchProps,
+    ProductProperties,
+    StateProps,
+} from "./product.properties";
 import React, { PureComponent } from "react";
 import classNames from "classnames";
 import { CSSTransition } from "react-transition-group";
-
+import { AppState } from "@redux/store";
+import { connect } from "react-redux";
+import { selectProduct } from "@redux/slices/products";
 class Product extends PureComponent<
     ProductProperties,
     {
@@ -17,25 +23,33 @@ class Product extends PureComponent<
     }
 
     public render(): JSX.Element {
+        const product = this.props.product;
         return (
             <div
                 onClick={() => this.setState({ hovered: true })}
                 onMouseLeave={() => this.setState({ hovered: false })}
                 className={classNames(
-                    "bg-white mx-2 py-6 px-6 rounded-3xl flex transition-all duration-200 cursor-pointer flex-shrink-0",
-                    { "mx-10": this.state.hovered },
+                    "bg-white mx-2 py-6 px-6 rounded-3xl flex transition-all duration-200 cursor-pointer",
+                    { "mr-10": this.state.hovered },
                 )}
             >
                 <div>
                     <img
-                        src="/chair.png"
-                        alt=""
+                        src={product.photo}
+                        alt={product.name}
                         className="object-contain h-60 -mt-36 mb-5 rounded-md"
                     />
-                    <p className="text-xl text-accent mt-auto">Fucking Shoe</p>
-                    <span className="text-lg font-bold">$320</span>
-                    <div className="mt-4">
-                        <div className="bg-gray-800 w-6 h-6 rounded-full" />
+                    <p className="text-xl text-accent mt-auto">
+                        {product.name}
+                    </p>
+                    <span className="text-lg font-bold">${product.price}</span>
+                    <div className="mt-4 flex items-center space-x-2">
+                        {product.colors.map((color) => (
+                            <div
+                                className="w-6 h-6 rounded-full"
+                                style={{ background: color }}
+                            />
+                        ))}
                     </div>
                 </div>
                 <CSSTransition
@@ -47,11 +61,13 @@ class Product extends PureComponent<
                 >
                     <div className="flex flex-col items-start">
                         <p className="w-36 text-sm text-gray-500 mb-2">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Porro obcaecati laudantium corporis iste
-                            expedita! Veniam numquam distinctio,
+                            {product.description ??
+                                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro obcaecati laudantium corporis iste"}
                         </p>
-                        <button className="mt-auto bg-accent-dark py-2 px-6 text-white rounded-xl w-full font-semibold">
+                        <button
+                            className="mt-auto bg-accent-dark py-2 px-6 text-white rounded-xl w-full font-semibold"
+                            onClick={() => this.props.selectProduct(product)}
+                        >
                             BUY NOW
                         </button>
                     </div>
@@ -60,5 +76,10 @@ class Product extends PureComponent<
         );
     }
 }
+const mapStateToProps = (state: AppState): StateProps => ({
+    selectedProduct: state.products.selectedProduct,
+});
 
-export default Product;
+const mapDispatchToProps: DispatchProps = { selectProduct };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

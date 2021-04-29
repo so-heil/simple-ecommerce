@@ -28,7 +28,7 @@ class Layout extends PureComponent<LayoutProperties, unknown> {
                             placeholder="Search"
                         />
                     </form>
-                    <div className="bg-white p-2 rounded-xl">
+                    <div className="bg-white p-2 rounded-xl z-40">
                         <IoBagOutline className="text-2xl" />
                     </div>
                 </header>
