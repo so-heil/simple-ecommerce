@@ -8,11 +8,6 @@ import { connect } from "react-redux";
 import { AppState } from "src/redux/store";
 
 class ViewedProducts extends PureComponent<ViewedProductsProperties, unknown> {
-    public constructor(props: ViewedProductsProperties) {
-        super(props);
-        this.state = {};
-    }
-
     public render(): JSX.Element {
         return (
             <div className="mb-8">
@@ -21,8 +16,11 @@ class ViewedProducts extends PureComponent<ViewedProductsProperties, unknown> {
                 </h2>
                 <div className="bg-accent-dark mt-10 p-6 rounded-3xl flex items-center space-x-20 overflow-x-auto mx-2 md:mx-0">
                     {this.props.viewedProducts.length > 0 ? (
-                        this.props.viewedProducts.map((product) => (
-                            <ViewedProduct product={product} />
+                        this.props.viewedProducts.map((product, i) => (
+                            <ViewedProduct
+                                product={product}
+                                key={`viewed-product:${product.name}+${product.id}->${i}`}
+                            />
                         ))
                     ) : (
                         <p className="text-gray-400 m-auto">

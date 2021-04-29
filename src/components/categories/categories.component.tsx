@@ -45,12 +45,13 @@ class Categories extends PureComponent<
                 ) : (
                     <div className="flex md:flex-col">
                         <ul className="flex items-center mt-10 flex-col md:flex-row px-5 md:px-0">
-                            {categories.map((category) => {
+                            {categories.map((category, i) => {
                                 const isAll = category === "all";
                                 const isSelected =
                                     category === selectedCategory;
                                 return (
                                     <li
+                                        key={`category-${category}-${i}`}
                                         onClick={() =>
                                             this.setState({
                                                 selectedCategory: category,
@@ -70,8 +71,11 @@ class Categories extends PureComponent<
                         </ul>
                         <div className="flex pt-40 overflow-x-auto">
                             {products
-                                ? products.map((product) => (
-                                      <Product product={product} />
+                                ? products.map((product, i) => (
+                                      <Product
+                                          product={product}
+                                          key={`product-${product.id}--${product.name}-${i}`}
+                                      />
                                   ))
                                 : "error"}
                         </div>
@@ -94,19 +98,16 @@ class Categories extends PureComponent<
 
     private renderLoader = () => {
         const products = Array.from(Array(6).keys());
-        const categories = Array.from(Array(4).keys());
         return (
             <div className="mt-10">
-                <div className="flex space-x-6">
-                    {categories.map(() => (
-                        <Skeleton width={80} />
-                    ))}
-                </div>
                 <div className="flex space-x-5 overflow-x-auto">
-                    {products.map(() => {
+                    {products.map((i) => {
                         const width = 150 + Math.random() * 200;
                         return (
-                            <div className="flex flex-col mt-10 flex-shrink-0">
+                            <div
+                                className="flex flex-col mt-10 flex-shrink-0"
+                                key={`category-loader-${width}-${i}`}
+                            >
                                 <Skeleton width={width} height={190} />
                                 <Skeleton width={120} className="mt-4" />
                                 <Skeleton width={60} />

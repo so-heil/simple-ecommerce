@@ -4,14 +4,14 @@ import classNames from "classnames";
 import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 class Quantity extends PureComponent<QuantityProperties, unknown> {
-    private btnClassname = classNames(
-        "flex justify-center items-center",
-        this.props.className,
-    );
+    private btnClassname: string;
 
     public constructor(props: QuantityProperties) {
         super(props);
-        this.state = {};
+        this.btnClassname = classNames(
+            "flex justify-center items-center",
+            this.props.className,
+        );
     }
 
     public render(): JSX.Element {

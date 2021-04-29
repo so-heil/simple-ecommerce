@@ -23,7 +23,6 @@ export const cartSlice = createSlice({
             const oldItemIndex = state.cartItems.findIndex(
                 (item) => item.product.id === action.payload.product.id,
             );
-            console.log(oldItemIndex);
             if (oldItemIndex !== -1) {
                 const oldItem = state.cartItems[oldItemIndex];
                 const updatedItem: CartItem = {

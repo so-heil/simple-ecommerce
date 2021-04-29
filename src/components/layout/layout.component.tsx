@@ -1,12 +1,7 @@
-import {
-    DispatchProps,
-    LayoutProperties,
-    StateProps,
-} from "./layout.properties";
+import { LayoutProperties, StateProps } from "./layout.properties";
 import React, { PureComponent } from "react";
-import { CgMenuLeft } from "react-icons/cg";
 import Logo from "src/components/logo/logo.component";
-import { IoSearchOutline, IoBagOutline } from "react-icons/io5";
+import { IoBagOutline } from "react-icons/io5";
 import Cart from "../cart/cart.component";
 import { connect } from "react-redux";
 import { AppState } from "src/redux/store";
@@ -91,6 +86,4 @@ const mapStateToProps = (state: AppState): StateProps => ({
     selectedProduct: state.products.selectedProduct,
 });
 
-const mapDispatchToProps: DispatchProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps)(Layout);

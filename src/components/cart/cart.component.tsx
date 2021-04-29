@@ -1,19 +1,16 @@
 import { CartProperties, DispatchProps, StateProps } from "./cart.properties";
-import React, { PureComponent } from "react";
+import { PureComponent } from "react";
 import CartProduct from "../cart-product/cart-product.component";
 import { connect } from "react-redux";
 import { AppState } from "src/redux/store";
 import { removeFromCart, addToCart } from "src/redux/slices/cart";
-import classNames from "classnames";
 import { IoMdArrowBack } from "react-icons/io";
 import { CSSTransition } from "react-transition-group";
 class Cart extends PureComponent<CartProperties, unknown> {
-    public constructor(props: CartProperties) {
-        super(props);
-        this.state = {};
-    }
-
     public render(): JSX.Element {
+        const total = this.props.cartItems
+            .map((item) => item.quantity * item.product.price)
+            .reduce((total, price) => total + price, 0);
         const {
             cartItems,
             removeFromCart,
@@ -21,6 +18,7 @@ class Cart extends PureComponent<CartProperties, unknown> {
             onClose,
             isOpen,
         } = this.props;
+
         return (
             <CSSTransition
                 in={isOpen}
@@ -30,13 +28,6 @@ class Cart extends PureComponent<CartProperties, unknown> {
                 unmountOnExit
             >
                 <aside
-                    // className={classNames(
-                    //     "h-screen bg-white md:w-96 rounded-r-3xl transition-all duration-200 fixed md:relative pb-16",
-                    //     {
-                    //         "ml-0": this.props.isOpen,
-                    //         "-ml-96": !this.props.isOpen,
-                    //     },
-                    // )}
                     className="z-50 md:w-80 rounded-r-3xl fixed pb-24 cart"
                     style={{
                         left: 0,
@@ -51,24 +42,30 @@ class Cart extends PureComponent<CartProperties, unknown> {
                     >
                         <IoMdArrowBack />
                     </button>
+
                     {cartItems.length > 0 ? (
-                        <>
-                            <div className="w-full space-y-5 p-5 overflow-y-auto h-full">
-                                {cartItems.map((item) => (
+                        <div className="overflow-y-auto h-full">
+                            <div className="w-full space-y-5 p-5">
+                                {cartItems.map((item, i) => (
                                     <CartProduct
+                                        key={`cart-item-product-${item.product.name}-${item.product.id}-${i}`}
                                         cartItem={item}
                                         onRemove={removeFromCart}
                                         onChange={addToCart}
                                     />
                                 ))}
                             </div>
+                            <h3 className="text-white text-xl pt-4 mx-4 border-t-2 border-gray-300 font-light flex justify-between">
+                                Total:
+                                <span className="font-bold">${total}</span>
+                            </h3>
                             <button
                                 className="w-full py-8 text-white text-xl font-bold bg-accent-light absolute rounded-br-3xl"
                                 style={{ bottom: 0 }}
                             >
                                 PROCEED TO CHECKOUT
                             </button>
-                        </>
+                        </div>
                     ) : (
                         <div className="w-full h-full flex justify-center items-center">
                             <p className="text-sm text-gray-500 font-semibold">

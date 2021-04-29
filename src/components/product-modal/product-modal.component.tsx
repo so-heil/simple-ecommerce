@@ -1,14 +1,12 @@
 import classNames from "classnames";
-import React, { Fragment, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { CSSTransition } from "react-transition-group";
 import {
     DispatchProps,
     ProductModalProperties,
     StateProps,
 } from "./product-modal.properties";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { AppState } from "src/redux/store";
 import { selectProduct, unselectProduct } from "src/redux/slices/products";
 import { connect } from "react-redux";
@@ -31,7 +29,7 @@ class ProductModal extends PureComponent<
     }
 
     public render(): JSX.Element {
-        const { unselectProduct, selectedProduct: product } = this.props;
+        const { selectedProduct: product } = this.props;
         const filledStars = Array.from(Array(product?.rating).keys());
         const emptyStars = product?.rating
             ? Array.from(Array(5 - product?.rating).keys())
@@ -58,11 +56,10 @@ class ProductModal extends PureComponent<
                             className="object-contain h-96 w-72 mr-10 p-4"
                         />
                         <div className="flex flex-col space-y-4 pr-4">
-                            {product?.colors.map((color) =>
-                                this.renderColor(color),
-                            )}
+                            {product?.colors.map(this.renderColor)}
                         </div>
                     </div>
+
                     <div className="px-10 text-white text-3xl">
                         <h3>{product?.name}</h3>
                         <div className="flex mt-5">
@@ -70,11 +67,11 @@ class ProductModal extends PureComponent<
                                 ${product?.price}
                             </span>
                             <div className="flex text-2xl items-center">
-                                {filledStars.map(() => (
-                                    <AiFillStar />
+                                {filledStars.map((i) => (
+                                    <AiFillStar key={`filled-star-${i}`} />
                                 ))}
-                                {emptyStars.map(() => (
-                                    <AiOutlineStar />
+                                {emptyStars.map((i) => (
+                                    <AiOutlineStar key={`empty-star+${i}`} />
                                 ))}
                             </div>
                         </div>
@@ -97,6 +94,7 @@ class ProductModal extends PureComponent<
                         </div>
                     </div>
                 </div>
+
                 <button
                     className="w-full py-8 text-white text-xl font-bold bg-accent-light mt-auto absolute rounded-b-3xl"
                     onClick={this.addToCart}
@@ -112,10 +110,11 @@ class ProductModal extends PureComponent<
         this.props.unselectProduct();
     };
 
-    private renderColor = (color: string): JSX.Element => {
+    private renderColor = (color: string, i: number): JSX.Element => {
         const isSelected = color === this.state.selectedColor;
         return (
             <div
+                key={`modal+product-color=${color}-${i}`}
                 className={classNames(
                     "p-1 rounded-full  opacity-50 hover:opacity-100 transition cursor-pointer",
                     { "border border-gray-400 opacity-100": isSelected },

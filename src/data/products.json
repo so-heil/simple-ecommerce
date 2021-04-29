@@ -1,7 +1,6 @@
 [
     {
         "name": "Classic Chair",
-
         "price": 320,
         "colors": ["#ea8", "#732"],
         "rating": 3,
@@ -10,33 +9,39 @@
         "id": 1
     },
     {
-        "name": "The SHoe",
-
+        "name": "Sport Shoe",
         "price": 100,
         "colors": ["#e28", "#f22"],
-        "rating": 3,
+        "rating": 4,
         "category": "shoes",
         "photo": "/shoe.png",
+        "id": 2
+    },
+    {
+        "name": "PlayStation 5",
+        "price": 500,
+        "colors": ["#000", "#fff"],
+        "rating": 5,
+        "category": "tech",
+        "photo": "/ps5.png",
         "id": 3
     },
     {
-        "name": "The SHoe",
-
-        "price": 100,
-        "colors": ["#e28", "#f22"],
+        "name": "Nice Hoodie",
+        "price": 79,
+        "colors": ["#f00", "#fff", "00f"],
         "rating": 3,
-        "category": "shoes",
-        "photo": "/shoe.png",
+        "category": "hoodies",
+        "photo": "/hoodie.png",
         "id": 4
     },
     {
-        "name": "The SHoe",
-
-        "price": 100,
-        "colors": ["#e28", "#f22"],
-        "rating": 3,
-        "category": "shoes",
-        "photo": "/shoe.png",
+        "name": "Apple Macbook",
+        "price": 1200,
+        "colors": ["#FFD700", "#C0C0C0"],
+        "rating": 5,
+        "category": "tech",
+        "photo": "/macbook.png",
         "id": 5
     }
 ]

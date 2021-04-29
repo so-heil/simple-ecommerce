@@ -2,11 +2,6 @@ import { ViewedProductProperties } from "./viewed-product.properties";
 import React, { PureComponent } from "react";
 
 class ViewedProduct extends PureComponent<ViewedProductProperties, unknown> {
-    public constructor(props: ViewedProductProperties) {
-        super(props);
-        this.state = {};
-    }
-
     public render(): JSX.Element {
         const product = this.props.product;
         return (

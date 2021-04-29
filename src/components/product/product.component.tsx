@@ -9,19 +9,16 @@ import { CSSTransition } from "react-transition-group";
 import { AppState } from "src/redux/store";
 import { connect } from "react-redux";
 import { selectProduct } from "src/redux/slices/products";
-import Skeleton from "react-loading-skeleton";
 class Product extends PureComponent<
     ProductProperties,
     {
-        hovered: boolean;
-        imageLoading: boolean;
+        expanded: boolean;
     }
 > {
     public constructor(props: ProductProperties) {
         super(props);
         this.state = {
-            hovered: false,
-            imageLoading: true,
+            expanded: false,
         };
     }
 
@@ -29,40 +26,27 @@ class Product extends PureComponent<
         const product = this.props.product;
         return (
             <div
-                onClick={() => this.setState({ hovered: true })}
-                onMouseLeave={() => this.setState({ hovered: false })}
+                onClick={() => this.setState({ expanded: true })}
+                onMouseLeave={() => this.setState({ expanded: false })}
                 className={classNames(
                     "bg-white bg-opacity-50 mx-2 py-6 px-6 rounded-3xl flex transition-all duration-200 cursor-pointer flex-shrink-0",
-                    { "mr-10": this.state.hovered },
+                    { "mr-10": this.state.expanded },
                 )}
             >
                 <div>
-                    {this.state.imageLoading && (
-                        <div className="-mt-36 mb-5">
-                            <Skeleton height={210} width={180} />
-                        </div>
-                    )}
                     <img
                         src={product.photo}
                         alt={product.name}
-                        onLoad={() => this.setState({ imageLoading: false })}
-                        className={classNames(
-                            "object-contain mb-5 rounded-md",
-                            {
-                                "max-w-0 opacity-0 max-h-0": this.state
-                                    .imageLoading,
-                                "h-60 opacity-100 -mt-36": !this.state
-                                    .imageLoading,
-                            },
-                        )}
+                        className="object-contain mb-5 rounded-md h-60 opacity-100 -mt-36"
                     />
                     <p className="text-xl text-accent mt-auto">
                         {product.name}
                     </p>
                     <span className="text-lg font-bold">${product.price}</span>
                     <div className="mt-4 flex items-center space-x-2">
-                        {product.colors.map((color) => (
+                        {product.colors.map((color, i) => (
                             <div
+                                key={`main-product-color-${color}-+${i}`}
                                 className="w-6 h-6 rounded-full"
                                 style={{ background: color }}
                             />
@@ -70,7 +54,7 @@ class Product extends PureComponent<
                     </div>
                 </div>
                 <CSSTransition
-                    in={this.state.hovered}
+                    in={this.state.expanded}
                     timeout={500}
                     classNames="product"
                     unmountOnExit

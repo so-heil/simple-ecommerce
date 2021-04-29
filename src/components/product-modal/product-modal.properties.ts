@@ -9,5 +9,5 @@ export interface DispatchProps {
     unselectProduct: () => void;
     addToCart: (item: CartItem) => void;
 }
-export interface OwnProps {}
-export type ProductModalProperties = StateProps & DispatchProps & OwnProps;
+
+export type ProductModalProperties = StateProps & DispatchProps;
