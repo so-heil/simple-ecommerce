@@ -1,3 +1,4 @@
+import { CartItem } from "src/redux/slices/cart";
 import { ProductType } from "src/types/Product";
 
 export interface StateProps {
@@ -6,6 +7,7 @@ export interface StateProps {
 export interface DispatchProps {
     selectProduct: (product: ProductType) => void;
     unselectProduct: () => void;
+    addToCart: (item: CartItem) => void;
 }
 export interface OwnProps {}
 export type ProductModalProperties = StateProps & DispatchProps & OwnProps;

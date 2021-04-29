@@ -6,7 +6,8 @@
         "colors": ["#ea8", "#732"],
         "rating": 3,
         "category": "chairs",
-        "photo": "/chair.png"
+        "photo": "/chair.png",
+        "id": 1
     },
     {
         "name": "The SHoe",
@@ -15,6 +16,7 @@
         "colors": ["#e28", "#f22"],
         "rating": 3,
         "category": "shoes",
-        "photo": "/shoe.png"
+        "photo": "/shoe.png",
+        "id": 2
     }
 ]

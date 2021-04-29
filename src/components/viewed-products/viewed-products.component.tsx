@@ -15,7 +15,7 @@ class ViewedProducts extends PureComponent<ViewedProductsProperties, unknown> {
 
     public render(): JSX.Element {
         return (
-            <div>
+            <div className="mb-8">
                 <h2 className="text-white text-2xl mt-20 font-bold">
                     Previously viewed
                 </h2>

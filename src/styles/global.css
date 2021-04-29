@@ -12,6 +12,7 @@ body {
         "Noto Color Emoji";
     background-color: #576161;
 }
+
 .product-modal {
     background: rgba(114, 127, 129, 0.45);
     backdrop-filter: blur(9px);

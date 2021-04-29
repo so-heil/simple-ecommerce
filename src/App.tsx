@@ -4,6 +4,7 @@ import ProductModal from "src/components/product-modal/product-modal.component";
 import React, { PureComponent } from "react";
 import ViewedProducts from "src/components/viewed-products/viewed-products.component";
 import "./styles/global.css";
+import Cart from "./components/cart/cart.component";
 class App extends PureComponent<unknown, unknown> {
     public render(): JSX.Element {
         return (

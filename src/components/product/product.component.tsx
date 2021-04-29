@@ -29,7 +29,7 @@ class Product extends PureComponent<
                 onClick={() => this.setState({ hovered: true })}
                 onMouseLeave={() => this.setState({ hovered: false })}
                 className={classNames(
-                    "bg-white mx-2 py-6 px-6 rounded-3xl flex transition-all duration-200 cursor-pointer",
+                    "bg-white mx-2 py-6 px-6 rounded-3xl flex transition-all duration-200 cursor-pointer prod",
                     { "mr-10": this.state.hovered },
                 )}
             >

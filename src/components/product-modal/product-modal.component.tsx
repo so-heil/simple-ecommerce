@@ -12,14 +12,22 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { AppState } from "src/redux/store";
 import { selectProduct, unselectProduct } from "src/redux/slices/products";
 import { connect } from "react-redux";
-
-class ProductModal extends PureComponent<ProductModalProperties, unknown> {
-    private btnClassname =
-        "bg-white w-10 h-10 flex justify-center items-center text-2xl";
-
+import Quantity from "../quantity/quantity.component";
+import { addToCart } from "src/redux/slices/cart";
+class ProductModal extends PureComponent<
+    ProductModalProperties,
+    {
+        selectedColor?: string;
+        quantity: number;
+        caption: string;
+    }
+> {
     public constructor(props: ProductModalProperties) {
         super(props);
-        this.state = {};
+        this.state = {
+            quantity: 1,
+            caption: "ADD TO SHOPPING CART",
+        };
     }
 
     public render(): JSX.Element {
@@ -48,7 +56,7 @@ class ProductModal extends PureComponent<ProductModalProperties, unknown> {
                     >
                         <AiOutlineClose
                             className="mt-5 ml-5 text-3xl absolute text-gray-300 hover:text-white transition cursor-pointer"
-                            onClick={unselectProduct}
+                            onClick={this.close}
                         />
                         <div className="flex items-center">
                             <img
@@ -56,8 +64,10 @@ class ProductModal extends PureComponent<ProductModalProperties, unknown> {
                                 alt=""
                                 className="object-contain h-96 w-72 mr-10 p-4"
                             />
-                            <div>
-                                <div className="bg-gray-800 w-6 h-6 rounded-full" />
+                            <div className="flex flex-col space-y-4">
+                                {product?.colors.map((color) =>
+                                    this.renderColor(color),
+                                )}
                             </div>
                         </div>
                         <div className="px-10 text-white text-3xl">
@@ -83,48 +93,74 @@ class ProductModal extends PureComponent<ProductModalProperties, unknown> {
                                 <p className="text-lg text-gray-100 flex justify-between">
                                     Quantity
                                 </p>
-                                <div className="text-black flex">
-                                    <button
-                                        className={classNames(
-                                            this.btnClassname,
-                                            "rounded-l-xl",
-                                        )}
-                                    >
-                                        <AiOutlineMinus />
-                                    </button>
-                                    <span
-                                        className={classNames(
-                                            this.btnClassname,
-                                            "font-bold",
-                                        )}
-                                    >
-                                        1
-                                    </span>
-                                    <button
-                                        className={classNames(
-                                            this.btnClassname,
-                                            "rounded-r-xl",
-                                        )}
-                                    >
-                                        <AiOutlinePlus />
-                                    </button>
-                                </div>
+                                <Quantity
+                                    className="bg-white h-10 w-10 text-2xl"
+                                    value={this.state.quantity}
+                                    onChange={(quantity) =>
+                                        this.setState({ quantity })
+                                    }
+                                    onZero={this.props.unselectProduct}
+                                />
                             </div>
                         </div>
-                        <button className="w-full py-8 text-white text-xl font-bold bg-accent-light mt-5">
-                            ADD TO SHOPPING CART
+                        <button
+                            className="w-full py-8 text-white text-xl font-bold bg-accent-light mt-5"
+                            onClick={this.addToCart}
+                        >
+                            {this.state.caption}
                         </button>
                     </aside>
                 </>
             </CSSTransition>
         );
     }
+    private close = () => {
+        this.setState({ caption: "ADD TO CART", quantity: 1 });
+        this.props.unselectProduct();
+    };
+
+    private renderColor = (color: string): JSX.Element => {
+        const isSelected = color === this.state.selectedColor;
+        return (
+            <div
+                className={classNames(
+                    "p-1 rounded-full  opacity-50 hover:opacity-100 transition cursor-pointer",
+                    { "border border-gray-400 opacity-100": isSelected },
+                )}
+                onClick={() => this.setState({ selectedColor: color })}
+            >
+                <div
+                    className="w-5 h-5 rounded-full"
+                    style={{ background: color }}
+                />
+            </div>
+        );
+    };
+
+    private addToCart = () => {
+        const { selectedColor, quantity } = this.state;
+        if (!selectedColor) {
+            this.setState({ caption: "PLEASE SELECT A COLOR" });
+            return;
+        } else if (quantity && this.props.selectedProduct) {
+            this.props.addToCart({
+                product: this.props.selectedProduct,
+                quantity,
+                selectedColor,
+            });
+            this.setState({ caption: "SUCCESSFULLY ADDED TO CART" });
+        }
+    };
 }
 
 const mapStateToProps = (state: AppState): StateProps => ({
     selectedProduct: state.products.selectedProduct,
 });
 
-const mapDispatchToProps: DispatchProps = { selectProduct, unselectProduct };
+const mapDispatchToProps: DispatchProps = {
+    selectProduct,
+    unselectProduct,
+    addToCart,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductModal);
