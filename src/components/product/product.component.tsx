@@ -9,16 +9,19 @@ import { CSSTransition } from "react-transition-group";
 import { AppState } from "src/redux/store";
 import { connect } from "react-redux";
 import { selectProduct } from "src/redux/slices/products";
+import Skeleton from "react-loading-skeleton";
 class Product extends PureComponent<
     ProductProperties,
     {
         hovered: boolean;
+        imageLoading: boolean;
     }
 > {
     public constructor(props: ProductProperties) {
         super(props);
         this.state = {
             hovered: false,
+            imageLoading: true,
         };
     }
 
@@ -29,15 +32,29 @@ class Product extends PureComponent<
                 onClick={() => this.setState({ hovered: true })}
                 onMouseLeave={() => this.setState({ hovered: false })}
                 className={classNames(
-                    "bg-white mx-2 py-6 px-6 rounded-3xl flex transition-all duration-200 cursor-pointer prod",
+                    "bg-white bg-opacity-50 mx-2 py-6 px-6 rounded-3xl flex transition-all duration-200 cursor-pointer flex-shrink-0",
                     { "mr-10": this.state.hovered },
                 )}
             >
                 <div>
+                    {this.state.imageLoading && (
+                        <div className="-mt-36 mb-5">
+                            <Skeleton height={210} width={180} />
+                        </div>
+                    )}
                     <img
                         src={product.photo}
                         alt={product.name}
-                        className="object-contain h-60 -mt-36 mb-5 rounded-md"
+                        onLoad={() => this.setState({ imageLoading: false })}
+                        className={classNames(
+                            "object-contain mb-5 rounded-md",
+                            {
+                                "max-w-0 opacity-0 max-h-0": this.state
+                                    .imageLoading,
+                                "h-60 opacity-100 -mt-36": !this.state
+                                    .imageLoading,
+                            },
+                        )}
                     />
                     <p className="text-xl text-accent mt-auto">
                         {product.name}
@@ -60,7 +77,7 @@ class Product extends PureComponent<
                     mountOnEnter
                 >
                     <div className="flex flex-col items-start">
-                        <p className="w-36 text-sm text-gray-500 mb-2">
+                        <p className="w-36 text-sm text-black mb-2">
                             {product.description ??
                                 "Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro obcaecati laudantium corporis iste"}
                         </p>

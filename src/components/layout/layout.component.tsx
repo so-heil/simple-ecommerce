@@ -11,6 +11,8 @@ import Cart from "../cart/cart.component";
 import { connect } from "react-redux";
 import { AppState } from "src/redux/store";
 import classNames from "classnames";
+import ProductModal from "src/components/product-modal/product-modal.component";
+import { CSSTransition } from "react-transition-group";
 class Layout extends PureComponent<
     LayoutProperties,
     {
@@ -26,14 +28,15 @@ class Layout extends PureComponent<
 
     public render(): JSX.Element {
         const isCartEmpty = this.props.itemsCount === 0;
+        const selectedProduct = this.props.selectedProduct;
         return (
-            <main className="flex">
+            <main className="flex bg-accent">
                 <Cart
                     isOpen={this.state.isCartOpen}
                     onClose={() => this.setState({ isCartOpen: false })}
                 />
-                <div className="px-10 w-full overflow-y-auto h-screen">
-                    <header className="flex items-center justify-between mt-8">
+                <div className="md:px-10 w-full">
+                    <header className="flex items-center justify-between mt-8 px-4 md:px-0">
                         <Logo />
 
                         <div
@@ -61,12 +64,23 @@ class Layout extends PureComponent<
                             {this.props.itemsCount > 0 && this.props.itemsCount}
                         </div>
                     </header>
-                    <h1 className="text-white text-4xl mt-20 font-light">
-                        <strong className="font-extrabold">Discover</strong> the
-                        best
+                    <h1 className="text-white text-4xl mt-20 font-light px-4 md:px-0">
+                        <strong className="font-extrabold">Best quality</strong>{" "}
+                        ever.
                     </h1>
                     {this.props.children}
                 </div>
+                <CSSTransition
+                    in={!!selectedProduct}
+                    timeout={300}
+                    classNames="modal"
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    <ProductModal
+                        key={`selected-product-${selectedProduct?.name}${selectedProduct?.id}${this.props.itemsCount}`}
+                    />
+                </CSSTransition>
             </main>
         );
     }
@@ -74,6 +88,7 @@ class Layout extends PureComponent<
 
 const mapStateToProps = (state: AppState): StateProps => ({
     itemsCount: state.cart.cartItems.length,
+    selectedProduct: state.products.selectedProduct,
 });
 
 const mapDispatchToProps: DispatchProps = {};

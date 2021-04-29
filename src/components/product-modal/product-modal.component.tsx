@@ -26,7 +26,7 @@ class ProductModal extends PureComponent<
         super(props);
         this.state = {
             quantity: 1,
-            caption: "ADD TO SHOPPING CART",
+            caption: "ADD TO CART",
         };
     }
 
@@ -37,81 +37,74 @@ class ProductModal extends PureComponent<
             ? Array.from(Array(5 - product?.rating).keys())
             : [];
         return (
-            <CSSTransition
-                in={!!product}
-                timeout={300}
-                classNames="modal"
-                mountOnEnter
-                unmountOnExit
+            <aside
+                className="z-20 md:w-96 bg-accent-light product-modal pb-24"
+                style={{
+                    right: 10,
+                    top: 10,
+                    bottom: 10,
+                    position: "fixed",
+                }}
             >
-                <>
-                    <aside
-                        className="absolute z-20 w-96 bg-accent-light product-modal overflow-y-auto relative"
-                        style={{
-                            right: 10,
-                            top: 10,
-                            bottom: 10,
-                            position: "fixed",
-                        }}
-                    >
-                        <AiOutlineClose
-                            className="mt-5 ml-5 text-3xl absolute text-gray-300 hover:text-white transition cursor-pointer"
-                            onClick={this.close}
+                <AiOutlineClose
+                    className="mt-5 ml-5 text-3xl absolute text-gray-300 hover:text-white transition cursor-pointer"
+                    onClick={this.close}
+                />
+                <div className="pb-4 modal-content overflow-y-auto h-full">
+                    <div className="flex items-center">
+                        <img
+                            src={product?.photo}
+                            alt=""
+                            className="object-contain h-96 w-72 mr-10 p-4"
                         />
-                        <div className="flex items-center">
-                            <img
-                                src={product?.photo}
-                                alt=""
-                                className="object-contain h-96 w-72 mr-10 p-4"
-                            />
-                            <div className="flex flex-col space-y-4">
-                                {product?.colors.map((color) =>
-                                    this.renderColor(color),
-                                )}
+                        <div className="flex flex-col space-y-4 pr-4">
+                            {product?.colors.map((color) =>
+                                this.renderColor(color),
+                            )}
+                        </div>
+                    </div>
+                    <div className="px-10 text-white text-3xl">
+                        <h3>{product?.name}</h3>
+                        <div className="flex mt-5">
+                            <span className="font-bold text-3xl flex-1">
+                                ${product?.price}
+                            </span>
+                            <div className="flex text-2xl items-center">
+                                {filledStars.map(() => (
+                                    <AiFillStar />
+                                ))}
+                                {emptyStars.map(() => (
+                                    <AiOutlineStar />
+                                ))}
                             </div>
                         </div>
-                        <div className="px-10 text-white text-3xl">
-                            <h3>{product?.name}</h3>
-                            <div className="flex mt-5">
-                                <span className="font-bold text-3xl flex-1">
-                                    ${product?.price}
-                                </span>
-                                <div className="flex text-2xl items-center">
-                                    {filledStars.map(() => (
-                                        <AiFillStar />
-                                    ))}
-                                    {emptyStars.map(() => (
-                                        <AiOutlineStar />
-                                    ))}
-                                </div>
-                            </div>
-                            <p className="text-lg text-white mt-8">
-                                {product?.description ??
-                                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo expedita exercitationem quia blanditiis, earum vel laboriosam omnis perspiciatis!"}
+                        <p className="text-lg text-white mt-8">
+                            {product?.description ??
+                                "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime voluptate repudiandae quo excepturi "}
+                        </p>
+                        <div className="flex justify-between items-center mt-8">
+                            <p className="text-lg text-gray-100 flex justify-between">
+                                Quantity
                             </p>
-                            <div className="flex justify-between items-center mt-8">
-                                <p className="text-lg text-gray-100 flex justify-between">
-                                    Quantity
-                                </p>
-                                <Quantity
-                                    className="bg-white h-10 w-10 text-2xl"
-                                    value={this.state.quantity}
-                                    onChange={(quantity) =>
-                                        this.setState({ quantity })
-                                    }
-                                    onZero={this.props.unselectProduct}
-                                />
-                            </div>
+                            <Quantity
+                                className="bg-white h-10 w-10 text-2xl"
+                                value={this.state.quantity}
+                                onChange={(quantity) =>
+                                    this.setState({ quantity })
+                                }
+                                onZero={this.props.unselectProduct}
+                            />
                         </div>
-                        <button
-                            className="w-full py-8 text-white text-xl font-bold bg-accent-light mt-5"
-                            onClick={this.addToCart}
-                        >
-                            {this.state.caption}
-                        </button>
-                    </aside>
-                </>
-            </CSSTransition>
+                    </div>
+                </div>
+                <button
+                    className="w-full py-8 text-white text-xl font-bold bg-accent-light mt-auto absolute rounded-b-3xl"
+                    onClick={this.addToCart}
+                    style={{ bottom: 0 }}
+                >
+                    {this.state.caption}
+                </button>
+            </aside>
         );
     }
     private close = () => {
@@ -148,7 +141,7 @@ class ProductModal extends PureComponent<
                 quantity,
                 selectedColor,
             });
-            this.setState({ caption: "SUCCESSFULLY ADDED TO CART" });
+            this.props.unselectProduct();
         }
     };
 }

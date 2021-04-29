@@ -17,6 +17,26 @@
         "rating": 3,
         "category": "shoes",
         "photo": "/shoe.png",
-        "id": 2
+        "id": 3
+    },
+    {
+        "name": "The SHoe",
+
+        "price": 100,
+        "colors": ["#e28", "#f22"],
+        "rating": 3,
+        "category": "shoes",
+        "photo": "/shoe.png",
+        "id": 4
+    },
+    {
+        "name": "The SHoe",
+
+        "price": 100,
+        "colors": ["#e28", "#f22"],
+        "rating": 3,
+        "category": "shoes",
+        "photo": "/shoe.png",
+        "id": 5
     }
 ]

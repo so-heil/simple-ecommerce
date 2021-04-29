@@ -20,7 +20,7 @@ class Logo extends PureComponent<LogoProperties, unknown> {
                         className,
                     )}
                 >
-                    Homeme
+                    Shopper
                 </h1>
             </div>
         );
